@@ -1,0 +1,69 @@
+
+  <div class="form">
+    {{ form.errors }}
+    <form id="form_page" method="POST">
+    {{ form.media }}
+      {% csrf_token %}
+    {% include 'touglates/form_field.html' with field=form.title %}
+    {% include 'touglates/form_field.html' with field=form.slug %}
+    {% include 'touglates/form_field.html' with field=form.is_home %}
+    {% include 'touglates/form_field.html' with field=form.show_title %}
+    {% include 'touglates/form_field.html' with field=form.order %}
+    {% include 'touglates/form_field.html' with field=form.display %}
+
+
+    <h3>Sections</h3>
+
+    {{ sections.management_form }}
+    {% if sections.errors %}{{ sections.errors }}{% endif %}
+    {% for sectionform in sections.forms %}
+      {% if sectionsform.errors %}{{ sectionform.errors }}{% endif %}
+      {% if sectionform.id.value  %}
+        <div id="div_sectionform_{{ sectionform.id.value }}" class="sectionformsetform formsetform"  >
+          {% for hiddenfield in sectionform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=sectionform.title %}
+          {% include 'touglates/form_field.html' with field=sectionform.slug %}
+          {% include 'touglates/form_field.html' with field=sectionform.order %}
+          {% include 'touglates/form_field.html' with field=sectionform.content_before_racks %}
+          {% include 'touglates/form_field.html' with field=sectionform.content_after_racks %}
+          {% include 'touglates/form_field.html' with field=sectionform.display %}
+          {% include 'touglates/form_field.html' with field=sectionform.DELETE %}
+        </div>
+      {% else %}
+        <div class="sectionformsetform sectionnewform formsetform formsetnewform" >
+          {% for hiddenfield in sectionform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=sectionform.title %}
+          {% include 'touglates/form_field.html' with field=sectionform.slug %}
+          {% include 'touglates/form_field.html' with field=sectionform.order %}
+          {% include 'touglates/form_field.html' with field=sectionform.content_before_racks %}
+          {% include 'touglates/form_field.html' with field=sectionform.content_after_racks %}
+          {% include 'touglates/form_field.html' with field=sectionform.display %}
+          {% include 'touglates/form_field.html' with field=sectionform.DELETE %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    <table>
+      <tr>
+        <td><button type="button" id="button_addsection" data-newform="sectionnewform">Add</button></td><td span="*"></td>
+      </tr>
+      {% for section in object.section_set.all %}
+        <tr id="tr_section_{{ section.id }}">
+          <td><button type="button" id="button_editsection_{{ section.id }}" data-formid="div_sectionform_{{ section.id }}" data-displayid="tr_section_{{ section.id }}" class="section_edit_button">edit</button></td><td>Section: </td><td>{{ section.slug }}</td>
+        </tr>
+
+      {% endfor %}
+    </table>
+
+    <button type="Submit">Submit</button>
+    </form>
+  </div>
+
+
+
+    <script>
+      activateFormsetButtons(["section"])
+    </script>

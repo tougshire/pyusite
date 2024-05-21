@@ -1,0 +1,9 @@
+{% extends './_delete.html' %}
+
+{% block content %}
+  {% include './rack_menu.html' %}
+  <h2>Delete Rack: {{ object }}</h2>
+  {% include './rack_detail_include.html' %}
+  {% include './rack_menu.html' %}
+
+{% endblock %}

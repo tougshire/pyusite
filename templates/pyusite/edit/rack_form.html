@@ -1,0 +1,73 @@
+  <div class="form">
+    {{ form.errors }}
+    <form id="form_rack" method="POST">
+    {% csrf_token %}
+    {% include 'touglates/form_field.html' with field=form.title %}
+    {% include 'touglates/form_field.html' with field=form.slug %}
+    {% include 'touglates/form_field.html' with field=form.section %}
+    {% include 'touglates/form_field.html' with field=form.show_title %}
+    {% include 'touglates/form_field.html' with field=form.width %}
+    {% include 'touglates/form_field.html' with field=form.show_article_meta %}
+    {% include 'touglates/form_field.html' with field=form.content_before_articles %}
+    {% include 'touglates/form_field.html' with field=form.content_after_articles %}
+    {% include 'touglates/form_field.html' with field=form.order %}
+    {% include 'touglates/form_field.html' with field=form.display %}
+
+
+    <h3>Articles</h3>
+
+    {{ hangers.management_form }}
+    {% if hangers.errors %}{{ hangers.errors }}{% endif %}
+    {% for hangerform in hangers.forms %}
+      {% if hangersform.errors %}{{ hangerform.errors }}{% endif %}
+      {% if hangerform.id.value  %}
+        <div id="div_hangerform_{{ hangerform.id.value }}" class="hangerformsetform formsetform"  >
+          {% for hiddenfield in hangerform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=hangerform.article %}
+          {% include 'touglates/form_field.html' with field=hangerform.order %}
+          {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
+        </div>
+      {% else %}
+        <div class="hangerformsetform hangernewform formsetform formsetnewform" >
+          {% for hiddenfield in hangerform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=hangerform.article %}
+          {% include 'touglates/form_field.html' with field=hangerform.order %}
+          {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    <table>
+      <tr>
+        <td><button type="button" id="button_addhanger" data-newform="hangernewform">Add</button></td><td span="*"></td>
+      </tr>
+      {% for hanger in object.hanger_set.all %}
+        <tr id="tr_hanger_{{ hanger.id }}">
+          <td><button type="button" id="button_edithanger_{{ hanger.id }}" data-formid="div_hangerform_{{ hanger.id }}" data-displayid="tr_hanger_{{ hanger.id }}" class="hanger_edit_button">edit</button></td><td>Article: </td><td>{{ hanger.article }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+
+
+    <button type="Submit">Submit</button>
+    </form>
+  </div>
+
+
+
+    <script>
+      activateFormsetButtons(["hanger"])
+    </script>
+    <script>
+      let title=document.getElementById("{{ form.title.id_for_label }}")
+      let slug=document.getElementById("{{ form.slug.id_for_label }}")
+      title.addEventListener('change', function() {
+        if (slug.value=="") {
+          slug.value=title.value.replace(/[- _]+/g, '').toLowerCase();
+        }
+      })
+    </script>

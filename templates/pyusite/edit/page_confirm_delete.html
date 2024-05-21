@@ -1,0 +1,9 @@
+{% extends './_delete.html' %}
+
+{% block content %}
+  {% include './page_menu.html' %}
+  <h2>Delete Page: {{ Object }}</h2>
+  {% include './page_detail_include.html' %}
+  {% include './page_menu.html' %}
+
+{% endblock %}

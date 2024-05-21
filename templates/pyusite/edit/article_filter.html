@@ -1,0 +1,109 @@
+{% extends './_base.html' %}
+{% load static %}
+{% block content %}
+{% include './article_menu.html' %}
+<h2>Articles</h2>
+
+<div id = "div_search_form">
+  <table>
+    <form method="POST">
+      {% csrf_token %}
+      {{ filter.form.as_table }}
+      {{ as_csv.as_table }}
+      {{ filterstore_save.as_table }}
+      <tr><td>Search </td><td><input type="submit" />Search</td></tr>
+    </form>
+    <form method="GET" action="{% url 'pyusite:article-list' %}">
+      {{ filterstore_retrieve.as_table }}
+      <tr><td>Get Saved Filter </td><td><input type="submit" />Retrieve</td></tr>
+    </form>
+  </table>
+</div>
+<div>
+  <a id="a_showhideSearchForm" href="#"></a>
+</div>
+<script>
+  function showhideSearchForm() {
+    var div_searchForm = document.getElementById("div_search_form")
+    if(div_searchForm.style.display=="none") {
+      div_searchForm.style.display="block"
+      a_showhideSearchForm.innerText="Hide Search Form"
+    } else {
+      div_searchForm.style.display="none"
+      a_showhideSearchForm.innerText="Show Search Form"
+    }
+  }
+  var a_showhideSearchForm = document.getElementById("a_showhideSearchForm")
+  a_showhideSearchForm.addEventListener("click", function(e) {
+    e.preventDefault()
+    showhideSearchForm()
+  })
+  showhideSearchForm()
+</script>
+<div class="list">
+      <div class="row rowhead">
+        {% include 'touglates/list_head.html' with field='' %}
+        {% if 'title' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Title" %}
+        {% endif %}
+        {% if 'slug' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Slug" %}
+        {% endif %}
+        {% if 'author' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Author" %}
+        {% endif %}
+        {% if 'publish_date' in show_columns or not show_columns %}
+          {% include 'touglates/list_field.html' with field="Publish Date" %}
+        {% endif %}
+        {% if 'summary' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Summary" %}
+        {% endif %}
+        {% if 'iframe' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Iframe" %}
+        {% endif %}
+
+
+      </div>
+
+      {% for article in filter.qs %}
+        <div class="row">
+          <div class="list-field field column">
+            <div><a href="{% url 'pyusite:article-detail' article.pk %}">view</a></div>
+            <div><a href="{% url 'pyusite:article-update' article.pk %}">edit</a></div>
+          </div>
+          {% if 'title' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=article.title %}
+          {% endif %}
+          {% if 'slug' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=article.slug %}
+          {% endif %}
+          {% if 'author' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=article.author %}
+          {% endif %}
+          {% if 'publish_date' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=article.publish_date %}
+          {% endif %}
+          {% if 'summary' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=article.summary %}
+          {% endif %}
+          {% if 'iframe' in show_columns or not show_columns %}
+            {% if iframe_document %}
+              {% include 'touglates/list_field.html' with field=article.iframe_document.href %}
+            {% else %}
+              {% include 'touglates/list_field.html' with field=article.iframe_src|slice:"0:30"|add:"..." %}
+            {% endif %}
+          {% endif %}
+
+        </div>
+      {% endfor %}
+      <div>Count: {{ count }}</div>
+
+    </div>
+  </div>
+
+{% include './article_menu.html' %}
+{% endblock %}
+{% block bottomscript %}
+  {{ block.super }}
+
+{% endblock %}

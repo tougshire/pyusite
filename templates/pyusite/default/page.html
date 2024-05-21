@@ -1,0 +1,114 @@
+{% extends './_base.html'%}
+{% load touglates_tags %}
+{% load pyusite_extras %}
+{% block content %}
+{% for section in sections %}
+  {% if section.racks|length > 0 %}
+    <div class="section">
+      {% if section.title and section.show_title %}
+        <h2>{{ section.title }}</h2>
+      {% endif %}
+      {% if section.content_before_racks %}
+        <div class="secfion_content">
+        {{ section.content_before_racks|safe }}
+        </div>
+      {% endif %}
+      <div class="racks">
+        {% for rack in section.racks %}
+          {% if rack.hangers|length > 0 %}
+            <div class="rack-wrapper" data-width="{{ rack.width }}">
+              <div class="rack" id="rack_{{ rack.pk }}">
+                {% if rack.title and rack.show_title %}
+                  <h3>{{ rack.title }}</h3>
+                {% endif %}
+                {% if rack.content_before_articles %}
+                <div class="rack-content">
+                    {{ rack.content_before_articles|safe }}
+                  </div>
+                {% endif %}
+                {% for hanger in rack.hangers %}
+                  <div class="article" id="hanger.article_{{ article.pk }}">
+
+                    {% if hanger.article.summary %}
+                      {% if hanger.article.title and hanger.article.show_title %}
+                        <a href="{% url 'pyusite:article' hanger.article.pk %}">{{ hanger.article.title }}</a>
+                      {% endif %}
+
+                      <div class="{{ hanger.article.content_classes }}" >
+                        {% if hanger.article.author.is_staff  %}
+                          {{ hanger.article.summary|safe }}
+                        {% else %}
+                          {{ hanger.article.summary }}
+                        {% endif %}
+                        {% if hanger.article.read_more %}
+                          <div class="readmore"><a href="{% url 'pyusite:article' hanger.article.pk %}">{{ hanger.article.read_more }}</a></div>
+                        {% endif %}
+                      </div>
+                    {% else %}
+                      {% if hanger.article.title and hanger.article.show_title %}
+                        <h3><a href="{% url 'pyusite:article' hanger.article.pk %}">{{ hanger.article.title }}</a></h3>
+                      {% endif %}
+
+                      <div class="{{ hanger.article.content_classes }}" >
+                        {% if hanger.article.if_summary_blank == 1 %}
+                          {% if hanger.article.author.is_staff  %}
+                            {{ hanger.article.content|safe }}
+                          {% else %}
+                            {{ hanger.article.content }}
+                          {% endif %}
+                          {% if hanger.article.iframe_document %}
+                            <iframe src="{{ hanger.article.iframe_document.doc_file.url }}"{% if hanger.article.iframe_height %} height="{{ hanger.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
+                          {% elif hanger.article.iframe_src %}
+                            <iframe src="{{ hanger.article.iframe_src }}"{% if hanger.article.iframe_height %} height="{{ hanger.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                {% if rack.content_after_articles %}
+                  <div class="rack-content">
+                    {{ rack.content_after_articles|safe }}
+                  </div>
+                {% endif %}
+
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if section.content_after_racks %}
+        <div class="section_content">
+        {{ section.content_after_racks|safe }}
+        </div>
+      {% endif %}
+
+    </div>
+  {% endif %}
+{% endfor %}
+<script>
+  function resizeRacks() {
+    if(window.innerWidth > 600) {
+      var sections = document.getElementsByClassName("section")
+      for(var section of sections) {
+        var racks = section.getElementsByClassName("rack-wrapper")
+        var total_widths = 0
+        for(var rack of racks) {
+          total_widths += parseInt(rack.dataset["width"])
+        }
+        for(var rack of racks) {
+          rack.style.width = (( 80/total_widths) * rack.dataset["width"] ) + "%"
+        }
+      }
+    } else {
+      var racks = document.getElementsByClassName("rack-wrapper")
+      for(var rack of racks) {
+        rack.style.width="90%"
+      }
+    }
+  }
+  resizeRacks()
+  window.addEventListener("resize", resizeRacks);
+</script>
+
+{% endblock %}

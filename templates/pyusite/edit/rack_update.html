@@ -1,0 +1,10 @@
+{% extends './_form.html' %}
+
+
+{% block content %}
+  {% include './rack_menu.html' %}
+  <h2>{{ object }}</h2>
+  {% include './rack_form.html' %}
+  {% include './rack_menu.html' %}
+{% endblock %}
+

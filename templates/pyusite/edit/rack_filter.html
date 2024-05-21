@@ -1,0 +1,82 @@
+{% extends './_base.html' %}
+{% load static %}
+{% block content %}
+{% include './rack_menu.html' %}
+<h2>Racks</h2>
+<div id = "div_search_form">
+  <table>
+    <form method="POST">
+      {% csrf_token %}
+      {{ filter.form.as_table }}
+      <tr><td>Search </td><td><input type="submit" />Search</td></tr>
+    </form>
+  </table>
+</div>
+<div>
+  <a id="a_showhideSearchForm" href="#"></a>
+</div>
+<script>
+  function showhideSearchForm() {
+    var div_searchForm = document.getElementById("div_search_form")
+    if(div_searchForm.style.display=="none") {
+      div_searchForm.style.display="block"
+      a_showhideSearchForm.innerText="Hide Search Form"
+    } else {
+      div_searchForm.style.display="none"
+      a_showhideSearchForm.innerText="Show Search Form"
+    }
+  }
+  var a_showhideSearchForm = document.getElementById("a_showhideSearchForm")
+  a_showhideSearchForm.addEventListener("click", function(e) {
+    e.preventDefault()
+    showhideSearchForm()
+  })
+  showhideSearchForm()
+</script>
+<div class="list">
+      <div class="row rowhead">
+        {% if 'slug' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="" %}
+        {% endif %}
+        {% if 'slug' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Slug" %}
+        {% endif %}
+        {% if 'title' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Title" %}
+        {% endif %}
+        {% if 'section' in show_columns or not show_columns %}
+          {% include 'touglates/list_head.html' with field="Section" %}
+        {% endif %}
+
+
+      </div>
+
+      {% for object in filter.qs %}
+        <div class="row">
+          <div class="list-field field column">
+            <div><a href="{% url 'pyusite:rack-detail' object.pk %}">view</a></div>
+            {% if perms.change_rack %}<div><a href="{% url 'pyusite:rack-update' object.pk %}">edit</a></div>{% endif %}
+          </div>
+          {% if 'slug' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.slug %}
+          {% endif %}
+          {% if 'title' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.title %}
+          {% endif %}
+          {% if 'section' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.section %}
+          {% endif %}
+
+        </div>
+      {% endfor %}
+      <div>Count: {{ count }}</div>
+
+    </div>
+  </div>
+
+{% include './rack_menu.html' %}
+{% endblock %}
+{% block bottomscript %}
+  {{ block.super }}
+
+{% endblock %}

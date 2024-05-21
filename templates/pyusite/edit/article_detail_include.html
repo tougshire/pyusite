@@ -1,0 +1,28 @@
+  <div class="detail">
+    {% include 'touglates/detail_field.html' with label=object_labels.title field=object.title %}
+    {% include 'touglates/detail_field.html' with label=object_labels.show_title field=object.show_title %}
+    {% include 'touglates/detail_field.html' with label=object_labels.slug field=object.slug %}
+    {% include 'touglates/detail_field.html' with label=object_labels.author field=object.author %}
+    {% include 'touglates/detail_field.html' with label=object_labels.section field=object.section %}
+    {% include 'touglates/detail_field.html' with label=object_labels.width field=object.width %}
+    {% include 'touglates/detail_field.html' with label=object_labels.iframe_document field=object.iframe_document %}
+    {% include 'touglates/detail_field.html' with label=object_labels.iframe_src field=object.iframe_src %}
+    {% include 'touglates/detail_field.html' with label=object_labels.iframe_heighte field=object.iframe_heighte %}
+    {% include 'touglates/detail_field.html' with label=object_labels.summary field=object.summary|safe %}
+    {% include 'touglates/detail_field.html' with label=object_labels.content field=object.content|safe %}
+    {% include 'touglates/detail_field.html' with label=object_labels.if_summary_blank field=object.if_summary_blank %}
+    {% include 'touglates/detail_field.html' with label=object_labels.publish_date field=object.publish_date %}
+    {% include 'touglates/detail_field.html' with label=object_labels.display field=object.display %}
+
+    <h3>Racks</h3>
+    {% for hanger in object.hanger_set.all %}
+      {% include 'touglates/detail_field.html' with label="rack" field=hanger.rack  %}
+      {% include 'touglates/detail_field.html' with label="expiration date" field=hanger.expiration_date  %}
+
+    {% endfor %}
+
+  </div>
+
+  <script>
+
+  </script>

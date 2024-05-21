@@ -1,0 +1,72 @@
+<div class="menu app-menu">
+
+  <div class="menu object-menu">
+
+    {% if perms.view_rack %}
+      {% if 'rack-list' == request.resolver_match.url_name %}
+        <div class="menu-rack menu-list menu-here">
+            List
+        </div>
+      {% else %}
+        <div class="menu-rack menu-list">
+          <a href="{% url 'pyusite:rack-list' %}">List</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.view_rack %}
+      {% if 'rack-detail' == request.resolver_match.url_name %}
+        <div class="menu-rack menu-detail menu-here">
+            View
+        </div>
+      {% elif object.pk %}
+        <div class="menu-rack menu-detail">
+          <a href="{% url 'pyusite:rack-detail' object.pk %}">View</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.add_rack %}
+      {% if 'rack-create' == request.resolver_match.url_name %}
+        <div class="menu-rack menu-here menu-create">
+          <button form="form_rack" class="menu-item" type="submit" >Submit</button></form>
+        </div>
+      {% else %}
+        <div class="menu-rack menu-create">
+          <a href="{% url 'pyusite:rack-create' %}">Add</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.change_rack %}
+      {% if 'rack-update' == request.resolver_match.url_name %}
+        <div class="menu-rack menu-update menu-here">
+          <button type="submit" form="form_rack" class="menu-item menu-here" >Submit Changes</button>
+        </div>
+      {% elif object.pk %}
+        <div class="menu-rack menu-update">
+          <a href="{% url 'pyusite:rack-update' object.pk %}">Edit</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.delete_rack %}
+      {% if 'rack-delete' == request.resolver_match.url_name %}
+        <div class="menu-rack menu-delete menu-here">
+          <form method="POST" action="{% url 'pyusite:rack-delete' object.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="menu-item" >Confirm Delete</button>
+          </form>
+        </div>
+      {% elif object.pk %}
+        <div class="menu-rack menu-delete">
+          <a href="{% url 'pyusite:rack-delete' object.pk %}">Delete</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+
+  </div>
+
+
+</div>

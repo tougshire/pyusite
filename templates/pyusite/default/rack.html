@@ -1,0 +1,39 @@
+{% extends './_base.html'%}
+{% load touglates_tags %}
+{% load pyusite_extras %}
+{% block content %}
+        <div class="rack-wrapper" data-width="{{ rack.width }}">
+          <div class="rack" id="rack_{{ rack.pk }}">
+            {% if rack.content_before_articles %}
+              <div class="rack-content">
+                {{ rack.content_before_articles|safe }}
+              </div>
+            {% endif %}
+            {% for hanger in rack.hanger_set.all %}
+              <div class="article" id="hanger.article_{{ article.pk }}">
+                <h3>{{ hanger.article.title }}</h3>
+                <div class="{{ hanger.article.content_classes }}" >
+                  {% if hanger.article.author.is_staff  %}
+                    {{ hanger.article.content|safe }}
+                  {% else %}
+                    {{ hanger.article.content }}
+                  {% endif %}
+                  {% if hanger.article.iframe_document %}
+                    <iframe src="{{ hanger.article.iframe_document.doc_file.url }}"{% if hanger.article.iframe_height %} height="{{ hanger.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
+                  {% elif hanger.article.iframe_src %}
+                    <iframe src="{{ hanger.article.iframe_src }}"{% if hanger.article.iframe_height %} height="{{ hanger.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+            {% if rack.content_below_articles %}
+              <div class="rack-content">
+                {{ rack.content_below_articles|safe }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+
+
+{% endblock %}

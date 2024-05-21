@@ -1,0 +1,35 @@
+#upperhead {
+    border-color: solid #224;
+}
+
+#footer {
+    background-color: rgb(25, 25, 50);
+    color:white;
+}
+
+#sitemenu, #sitemenu a, #sitemenu a:visited, #sitemenu a:hover, button.menu-item  {
+    background-color: rgb(25, 25, 50);
+    color:white;
+}
+
+
+.headline, .headline a, .headline a:visited, .headline a:hover {
+    color:#022e5b;
+}
+
+.subheadline, .subheadline a, .subheadline a:visited, .subheadline a:hover {
+    color:#00a7e0;
+}
+
+.epigraph {
+    background-color:#c7dbe2;
+}
+
+div.rack-wrapper {
+    border-color:#00a7e0;
+}
+
+.section::after {
+    border-color:rgb(25, 25, 50);
+}
+

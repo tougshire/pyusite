@@ -1,0 +1,14 @@
+  <div class="detail">
+    {% include 'touglates/detail_field.html' with label="Slug" field=object.slug %}
+    {% include 'touglates/detail_field.html' with label="Title" field=object.title %}
+
+    <h3>Sections</h3>
+    {% for section in object.section_set.all %}
+      {% include 'touglates/detail_fields.html' with label="Section:" field_1=section.slug field_2=section.title  %}
+    {% endfor %}
+
+  </div>
+
+  <script>
+
+  </script>

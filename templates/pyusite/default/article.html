@@ -1,0 +1,26 @@
+{% extends './_base.html'%}
+{% load touglates_tags %}
+{% load pyusite_extras %}
+{% block content %}
+
+  <div class="article" id="object_{{ object.pk }}">
+    {% if article.title and article.show_title %}
+      <h2>{{ object.title }}</h2>
+    {% endif %}
+    <div class="article_content {{ object.content_classes }}" >
+      {% if object.author.is_staff  %}
+        {{ object.content|safe }}
+      {% else %}
+        {{ object.content }}
+      {% endif %}
+      {% if object.iframe_document %}
+        <iframe src="{{ object.iframe_document.doc_file.url }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %}>"Loading.."</iframe>
+      {% elif object.iframe_src %}
+        <iframe src="{{ object.iframe_src }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %}>"Loading.."</iframe>
+      {% endif %}
+    </div>
+  </div>
+
+
+
+{% endblock %}

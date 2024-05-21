@@ -1,0 +1,72 @@
+  <div class="form">
+    {{ form.errors }}
+    <form id="form_rack" method="POST">
+    {% csrf_token %}
+    {% include 'touglates/form_field.html' with field=form.title %}
+    {% include 'touglates/form_field.html' with field=form.slug %}
+    {% include 'touglates/form_field.html' with field=form.show_title %}
+    {% include 'touglates/form_field.html' with field=form.page %}
+    {% include 'touglates/form_field.html' with field=form.order %}
+    {% include 'touglates/form_field.html' with field=form.content_before_racks %}
+    {% include 'touglates/form_field.html' with field=form.content_after_racks %}
+    {% include 'touglates/form_field.html' with field=form.display %}
+
+
+    <h3>Racks</h3>
+
+    {{ racks.management_form }}
+    {% if racks.errors %}{{ racks.errors }}{% endif %}
+    {% for rackform in racks.forms %}
+      {% if rackform.errors %}{{ rackform.errors }}{% endif %}
+      {% if rackform.id.value  %}
+        <div id="div_rackform_{{ rackform.id.value }}" class="rackformsetform formsetform"  >
+          {% for hiddenfield in rackform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=rackform.title %}
+          {% include 'touglates/form_field.html' with field=rackform.show_title %}
+          {% include 'touglates/form_field.html' with field=rackform.slug %}
+          {% include 'touglates/form_field.html' with field=rackform.width %}
+          {% include 'touglates/form_field.html' with field=rackform.show_article_meta %}
+          {% include 'touglates/form_field.html' with field=rackform.content_before_articles %}
+          {% include 'touglates/form_field.html' with field=rackform.content_after_articles %}
+          {% include 'touglates/form_field.html' with field=rackform.order %}
+          {% include 'touglates/form_field.html' with field=rackform.display %}
+          {% include 'touglates/form_field.html' with field=rackform.DELETE %}
+        </div>
+      {% else %}
+        <div class="rackformsetform racknewform formsetform formsetnewform" >
+          {% for hiddenfield in rackform.hidden_fields %}
+            {{ hiddenfield }}
+          {% endfor %}
+          {% include 'touglates/form_field.html' with field=rackform.title %}
+          {% include 'touglates/form_field.html' with field=rackform.show_title %}
+          {% include 'touglates/form_field.html' with field=rackform.slug %}
+          {% include 'touglates/form_field.html' with field=rackform.width %}
+          {% include 'touglates/form_field.html' with field=rackform.show_article_meta %}
+          {% include 'touglates/form_field.html' with field=rackform.content_before_articles %}
+          {% include 'touglates/form_field.html' with field=rackform.content_after_articles %}
+          {% include 'touglates/form_field.html' with field=rackform.order %}
+          {% include 'touglates/form_field.html' with field=rackform.display %}
+          {% include 'touglates/form_field.html' with field=rackform.DELETE %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    <table>
+      <tr>
+        <td><button type="button" id="button_addrack" data-newform="racknewform">Add</button></td><td span="*"></td>
+      </tr>
+      {% for rack in object.rack_set.all %}
+        <tr id="tr_rack_{{ rack.id }}">
+          <td><button type="button" id="button_editrack_{{ rack.id }}" data-formid="div_rackform_{{ rack.id }}" data-displayid="tr_rack_{{ rack.id }}" class="rack_edit_button">edit</button></td><td>Rack: </td><td>{{ rack.title }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <button type="Submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    activateFormsetButtons(["rack"])
+  </script>

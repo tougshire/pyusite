@@ -1,0 +1,55 @@
+{% extends './_base.html' %}
+{% load static %}
+{% block content %}
+{% include './page_menu.html' %}
+<h2>Pages</h2>
+
+<div class="list">
+  <div class="row rowhead">
+    {% include 'touglates/list_head.html' with field="" %}
+    {% if 'is_home' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field="Home" %}
+    {% endif %}
+    {% if 'slug' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field="Slug" %}
+    {% endif %}
+    {% if 'title' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field="Title" %}
+    {% endif %}
+    {% if 'display' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field="Display" %}
+    {% endif %}
+
+  </div>
+
+  {% for object in object_list %}
+    <div class="row">
+      <div class="list-field field column">
+        <div><a href="{% url 'pyusite:page-detail' object.pk %}">view</a></div>
+        {% if perms.change_page %}<div><a href="{% url 'pyusite:rack-update' object.pk %}">edit</a></div>{% endif %}
+      </div>
+      {% if 'is_home' in show_columns or not show_columns %}
+        {% include 'touglates/list_field.html' with field=object.is_home %}
+      {% endif %}
+      {% if 'slug' in show_columns or not show_columns %}
+        {% include 'touglates/list_field.html' with field=object.slug %}
+      {% endif %}
+      {% if 'title' in show_columns or not show_columns %}
+        {% include 'touglates/list_field.html' with field=object.title %}
+      {% endif %}
+      {% if 'display' in show_columns or not show_columns %}
+        {% include 'touglates/list_field.html' with field=object.display %}
+      {% endif %}
+
+    </div>
+  {% endfor %}
+  <div>Count: {{ count }}</div>
+
+</div>
+
+{% include './page_menu.html' %}
+{% endblock %}
+{% block bottomscript %}
+  {{ block.super }}
+
+{% endblock %}

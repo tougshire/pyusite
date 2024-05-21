@@ -1,0 +1,9 @@
+{% extends './_base.html' %}
+
+{% block content %}
+  {% include './section_menu.html' %}
+  <h2>{{ object }}</h2>
+  {% include './section_detail_include.html' %}
+  {% include './section_menu.html' %}
+
+{% endblock %}

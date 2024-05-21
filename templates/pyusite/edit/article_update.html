@@ -1,0 +1,9 @@
+{% extends './_form.html' %}
+
+
+{% block content %}
+  {% include './article_menu.html' %}
+  <h2>{{ object }}</h2>
+  {% include './article_form.html' %}
+  {% include './article_menu.html' %}
+{% endblock %}

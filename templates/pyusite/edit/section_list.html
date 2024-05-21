@@ -1,0 +1,79 @@
+{% extends './_base.html' %}
+{% load static %}
+{% block content %}
+{% include './section_menu.html' %}
+<h2>Sections</h2>
+
+<div class="list">
+  <div class="row rowhead">
+
+    {% include 'touglates/list_head.html' with field="-" %}
+
+    {% if 'slug' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.slug %}
+    {% endif %}
+    {% if 'title' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.title %}
+    {% endif %}
+    {% if 'page' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.page %}
+    {% endif %}
+    {% if 'show_title' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.show_title %}
+    {% endif %}
+    {% if 'content_before_racks' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.content_before_racks %}
+    {% endif %}
+    {% if 'content_after_racks' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.content_after_racks %}
+    {% endif %}
+    {% if 'order' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.order %}
+    {% endif %}
+    {% if 'display' in show_columns or not show_columns %}
+      {% include 'touglates/list_head.html' with field=object_labels.display %}
+    {% endif %}
+
+  </div>
+
+      {% for object in object_list %}
+        <div class="row">
+          <div class="list-field field column"><a href="{% url 'pyusite:section-detail' object.pk %}">view</a></div>
+          {% if 'slug' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.slug %}
+          {% endif %}
+          {% if 'title' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.title %}
+          {% endif %}
+          {% if 'page' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.page %}
+          {% endif %}
+          {% if 'show_title' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.show_title %}
+          {% endif %}
+          {% if 'content_before_objects' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.content_before_objects %}
+          {% endif %}
+          {% if 'content_after_objects' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.content_after_objects %}
+          {% endif %}
+          {% if 'order' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.order %}
+          {% endif %}
+          {% if 'display' in show_columns or not show_columns %}
+            {% include 'touglates/list_field.html' with field=object.display %}
+          {% endif %}
+
+        </div>
+      {% endfor %}
+      <div>Count: {{ count }}</div>
+
+    </div>
+  </div>
+
+{% include './section_menu.html' %}
+{% endblock %}
+{% block bottomscript %}
+  {{ block.super }}
+
+{% endblock %}

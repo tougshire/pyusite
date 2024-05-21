@@ -1,0 +1,67 @@
+<div class="menu app-menu">
+
+  {% if perms.pyusite.view_article %}
+    {% if 'article-' in request.resolver_match.url_name %}
+      <div class="menu-article menu-here">
+        Articles
+      </div>
+    {% else %}
+      <div class="menu-article">
+        <a href="{% url 'pyusite:article-list' %}">Articles</a>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+  {% if perms.pyusite.view_rack %}
+    {% if 'rack-' in request.resolver_match.url_name %}
+      <div class="menu-rack menu-here">
+        <a href="{% url 'pyusite:rack-list' %}">Racks</a>
+      </div>
+    {% else %}
+      <div class="menu-rack">
+        <a href="{% url 'pyusite:rack-list' %}">Racks</a>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+  {% if perms.pyusite.view_section %}
+    {% if 'section-' in request.resolver_match.url_name %}
+      <div class="menu-section menu-here">
+        Sections
+      </div>
+    {% else %}
+      <div class="menu-section">
+        <a href="{% url 'pyusite:section-list' %}">Sections</a>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+
+  {% if perms.pyusite.view_page %}
+    {% if 'page-' in request.resolver_match.url_name %}
+      <div class="menu-page menu-here">
+        Pages
+      </div>
+    {% else %}
+      <div class="menu-page">
+        <a href="{% url 'pyusite:page-list' %}">Pages</a>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+
+  {% if user.is_authenticated %}
+    <div class="menu-article">
+      <form class="menu-item" method="POST" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="menu-item" style="background:none; border:none; padding:0;">Log Out</button></form>
+    </div>
+  {% else %}
+    <div class="menu-article">
+      <a href="{% url 'login' %}?next={{ request.path }}">Log in</a>
+    </div>
+  {% endif %}
+
+</div>

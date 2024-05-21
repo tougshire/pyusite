@@ -1,0 +1,72 @@
+<div class="menu app-menu">
+
+  <div class="menu object-menu">
+
+    {% if perms.view_section %}
+      {% if 'section-list' == request.resolver_match.url_name %}
+        <div class="menu-section menu-list menu-here">
+            List
+        </div>
+      {% else %}
+        <div class="menu-section menu-list">
+          <a href="{% url 'pyusite:section-list' %}">List</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.view_section %}
+      {% if 'section-detail' == request.resolver_match.url_name %}
+        <div class="menu-section menu-detail menu-here">
+            View
+        </div>
+      {% elif object.pk %}
+        <div class="menu-section menu-detail">
+          <a href="{% url 'pyusite:section-detail' object.pk %}">View</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.add_section %}
+      {% if 'section-create' == request.resolver_match.url_name %}
+        <div class="menu-section menu-here menu-create">
+          <button form="form_section" class="menu-item" type="submit" >Submit</button></form>
+        </div>
+      {% else %}
+        <div class="menu-section menu-create">
+          <a href="{% url 'pyusite:section-create' %}">Add</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.change_section %}
+      {% if 'section-update' == request.resolver_match.url_name %}
+        <div class="menu-section menu-update menu-here">
+          <button type="submit" form="form_section" class="menu-item menu-here" >Submit Changes</button>
+        </div>
+      {% elif object.pk %}
+        <div class="menu-section menu-update">
+          <a href="{% url 'pyusite:section-update' object.pk %}">Edit</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.delete_section %}
+      {% if 'section-delete' == request.resolver_match.url_name %}
+        <div class="menu-section menu-delete menu-here">
+          <form method="POST" action="{% url 'pyusite:section-delete' object.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="menu-item" >Confirm Delete</button>
+          </form>
+        </div>
+      {% elif object.pk %}
+        <div class="menu-section menu-delete">
+          <a href="{% url 'pyusite:section-delete' object.pk %}">Delete</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+
+  </div>
+
+
+</div>
