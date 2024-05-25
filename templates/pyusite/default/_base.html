@@ -1,6 +1,148 @@
+{% extends 'touglates/base.html' %}
 {% load static %}
-<!DOCTYPE HTML>
+{% load touglates_tags %}
+{% block head %}
+{{ block.super }}
+{% endblock %}
+{% block body %}
+<body>
 
+  {% if "UPPER_BANNER_IMAGE" in pyusite and pyusite.UPPER_BANNER_IMAGE %}
+  <div id="upperhead" class="head" {% if "UPPER_HEAD_STYLE" in pyusite %} style="{{ pyusite.UPPER_HEAD_STYLE }}"{% endif %}>
+    <img src="{{ pyusite.UPPER_BANNER_IMAGE }}" alt="{{ pyusite.UPPER_BANNER_IMAGE_ALT }}" class="UPPER_BANNER" {% if 'UPPER_BANNER_IMAGE_STYLE' in pyusite %} style="{{ pyusite.UPPER_BANNER_IMAGE_STYLE }}" {% endif %} />
+  </div>
+  {% endif %}
+  <div id="head" class="head">
+      <a href="{% url 'pyusite:homepage' %}">
+          {% if pyusite.BANNER_IMAGE %}
+              <img src="{{ pyusite.BANNER_IMAGE }}" alt="{{ pyusite.BANNER_IMAGE_ALT }}" class="banner" {% if 'BANNER_IMAGE_STYLE' in pyusite %} style="{{ pyusite.BANNER_IMAGE_STYLE }}" {% endif %} />
+          {% endif %}
+          {% if pyusite.BANNER_TEXT %}
+              <div id="bannertext">
+                  {{ pyusite.BANNER_TEXT }}
+              </div>
+          {% endif %}
+      </a>
+  </div>
+
+  {% if messages %}
+      <div id="messages">
+          {% for message in messages %}
+              {{ message }}
+          {% endfor %}
+      </div>
+  {% endif %}
+
+  {% for menu in main_menus %}
+      {% if forloop.first %}
+      <div id="sitemenu">
+          {% for item in menu.menuitem_set.all %}
+              <a href="{{ base_url }}{{ item.href }}">{{ item.label }}</a>
+          {% endfor %}
+      </div>
+      {% endif %}
+  {% endfor %}
+
+  <div id="mainstage">
+      {% block content %}
+      {% endblock %}
+  </div>
+
+  <div id="footer">
+      <div>
+      {{ pyusite.FOOTER_CONTENT|safe }}
+      </div>
+      <div>
+          {% if user.is_authenticated %}
+          <form method="POST" class="menu-item" action="{% url 'logout' %}?next={{ request.path }}">{% csrf_token %}<button type="submit" class="menu-item">Log Out</button></form>
+          {% else %}
+          <a href="{% url 'login' %}?next={{ request.path }}">Log in</a>
+          {% endif %}
+      </div>
+  </div>
+  <script>
+
+var sitemenuHeight = 0
+var sitemenu = document.getElementById("sitemenu")
+if( sitemenu != null) {
+sitemenuHeight = sitemenu.offsetHeight
+var sitemenuStartingTop = sitemenu.offsetTop
+var sitemenuStartingPosition = sitemenu.style.position
+}
+var upperheadHeight = 0
+var upperhead = document.getElementById("upperhead")
+if(upperhead != null) {
+upperheadHeight = upperhead.offsetHeight
+}
+var headHeight = document.getElementById("head").offsetHeight
+
+if (sitemenu != null) {
+
+if(window.innerWidth < 600 ) {
+var menuItem = document.getElementById("sitemenu").firstElementChild
+if(menuItem != null) {
+sitemenuItemStyleDisplay = menuItem.style.display
+var menuItemHide = menuItem.cloneNode()
+menuItemHide.innerText = "^"
+menuItemHide.href="#"
+menuItemHide.id = "menuItemHide"
+menuItemHide.addEventListener('click', function(e) {
+  e.preventDefault()
+  hidesitemenu()
+});
+}
+sitemenu.appendChild(menuItemHide)
+}
+}
+function scroll_effects(e) {
+
+if( sitemenu != null ) {
+if(window.scrollY > sitemenuStartingTop) {
+sitemenu.style.position="sticky"
+sitemenu.style.top="0"
+} else {
+sitemenu.style.position = sitemenuStartingPosition
+}
+}
+if (upperhead != null) {
+if(window.scrollY > (upperheadHeight - sitemenuHeight ) ) {
+upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - sitemenuHeight ) ) ) + "px"
+}
+}
+}
+function hidesitemenu () {
+menuItems = document.querySelectorAll("#sitemenu a")
+for(menuItem of menuItems) {
+if(menuItem.id == "menuItemHide") {
+if(menuItem.innerText == "^") {
+  menuItem.innerText = '\u{2304}'
+} else {
+  menuItem.innerText = "^"
+}
+} else {
+if(menuItem.style.display == "none") {
+  menuItem.style.display = sitemenuItemStyleDisplay
+} else {
+  menuItem.style.display = "none"
+}
+}
+}
+}
+
+
+window.addEventListener("scroll", function(e) {
+scroll_effects(e);
+})
+
+
+
+  </script>
+</body>
+{% endblock %}
+
+
+{% comment %}
+<!--
 <html>
     <head>
       {% if object %}
@@ -174,3 +316,5 @@ window.addEventListener("scroll", function(e) {
         </script>
     </body>
 </html>
+  -->
+{% endcomment %}
