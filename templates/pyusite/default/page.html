@@ -31,7 +31,7 @@
 
                     {% if hanger.article.summary %}
                       {% if hanger.article.title and hanger.article.show_title %}
-                        <a href="{% url 'pyusite:article' hanger.article.pk %}">{{ hanger.article.title }}</a>
+                        <h3><a href="{% url 'pyusite:article' hanger.article.pk %}">{{ hanger.article.title }}</a><h3>
                       {% endif %}
 
                       <div class="{{ hanger.article.content_classes }}" >
