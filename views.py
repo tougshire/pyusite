@@ -821,4 +821,14 @@ class ImijCreate(CreateView):
     template_name = "pyusite/edit/imij_create.html"
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "model_app": "pyusite",
+                    "model_name": "Imij",
+                },
+            )
+
         return reverse("pyusite:Imij-detail", kwargs={"pk": self.object.pk})
