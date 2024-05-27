@@ -4,7 +4,7 @@ from django.forms import ModelForm, SelectDateWidget, inlineformset_factory, Sel
 from django.urls import reverse_lazy
 from .models import Article, Articlecomment, Imij, Page, Rack, Hanger, Section
 from django import forms
-from touglates.widgets import TouglateRelatedSelect, SlugInput
+from touglates.widgets import TouglatesRelatedSelect, SlugInput
 
 # from django_c_keditor_5.widgets import C_KEditor5Widget
 
@@ -14,9 +14,10 @@ class ArticleForm(ModelForm):
         required=False,
         queryset=Imij.objects.all(),
         to_field_name="markdown_code",
-        widget=TouglateRelatedSelect(
+        widget=TouglatesRelatedSelect(
             related_data={
-                "model": "Imij",
+                "model_name": "Imij",
+                "app_name": "pyusite",
                 "add_url": reverse_lazy("pyusite:imij-popup"),
             },
         ),
@@ -66,9 +67,10 @@ class HangerForm(ModelForm):
             "expiration_date",
         ]
         widgets = {
-            "rack": TouglateRelatedSelect(
+            "rack": TouglatesRelatedSelect(
                 related_data={
-                    "model": "Rack",
+                    "model_name": "Rack",
+                    "app_name": "pyusite",
                     "add_url": reverse_lazy("pyusite:rack-popup"),
                 }
             )

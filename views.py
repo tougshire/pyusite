@@ -118,6 +118,15 @@ class PageCreate(CreateView):
         return response
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "app_name": "pyusite",
+                    "model_name": "Page",
+                },
+            )
         return reverse("pyusite:page-detail", kwargs={"pk": self.object.pk})
 
 
@@ -381,6 +390,16 @@ class ArticleCreate(CreateView):
         return response
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "app_name": "pyusite",
+                    "model_name": "Article",
+                },
+            )
+
         return reverse("pyusite:article-detail", kwargs={"pk": self.object.pk})
 
 
@@ -568,6 +587,16 @@ class RackCreate(CreateView):
         return response
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "app_name": "pyusite",
+                    "model_name": "Rack",
+                },
+            )
+
         return reverse("pyusite:rack-detail", kwargs={"pk": self.object.pk})
 
 
@@ -711,6 +740,16 @@ class SectionCreate(CreateView):
         return response
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "app_name": "pyusite",
+                    "model_name": "Section",
+                },
+            )
+
         return reverse("pyusite:section-detail", kwargs={"pk": self.object.pk})
 
 
@@ -808,6 +847,16 @@ class ArticlecommentCreate(CreateView):
     template_name = "pyusite/edit/articlecomment_create.html"
 
     def get_success_url(self):
+        if "popup" in self.request.get_full_path():
+            return reverse(
+                "touglates:popup_closer",
+                kwargs={
+                    "pk": self.object.pk,
+                    "app_name": "pyusite",
+                    "model_name": "Articlecomment",
+                },
+            )
+
         return reverse("pyusite:article-view", kwargs={"pk": self.object.article.pk})
 
 
@@ -826,7 +875,7 @@ class ImijCreate(CreateView):
                 "touglates:popup_closer",
                 kwargs={
                     "pk": self.object.pk,
-                    "model_app": "pyusite",
+                    "app_name": "pyusite",
                     "model_name": "Imij",
                 },
             )
