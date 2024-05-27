@@ -20,7 +20,7 @@
       {% include 'touglates/form_field.html' with field=form.publish_date %}
       {% include 'touglates/form_field.html' with field=form.display %}
 
-    <h3>Racks</h3>
+    <h3>Hangers</h3><p>(For your article to be visible on a page, you must "hang" your article with a hanger, on a rack, in a section of the page )<p>
 
     {{ hangers.management_form }}
     {% if hangers.errors %}{{ hangers.errors }}{% endif %}
@@ -50,7 +50,7 @@
     {% endfor %}
     <table>
       <tr>
-        <td><button type="button" id="button_addhanger" data-newform="hangernewform">Add</button></td><td span="*"></td>
+        <td><button type="button" id="button_addhanger" data-newform="hangernewform">Add a Hanger</button></td><td span="*"></td>
       </tr>
       {% for hanger in object.hanger_set.all %}
         <tr id="tr_hanger_{{ hanger.id }}">
@@ -59,9 +59,11 @@
       {% endfor %}
     </table>
 
-    <button type="Submit">Submit</button>
+    {% include 'touglates/form_field.html' with field='<button type="Submit">Submit Article</button>' %}
+
     </form>
 
+    <h2>Generate an Image Link</h2><p>Copy the generated link into the content or summary of the article</p>
     For this image:<br/> {{ form.image_select }}<br/>
     optionally with these classes:<br/>
     <select id="ctl_imagewidth"><option value="">---</option>
@@ -80,7 +82,7 @@
       <option value=".right">right</option>
     </select>
     <br/>
-    use this code:<textarea class="widthlong" id="ctl_imagecode"></textarea>
+    use this code:<br/><textarea class="widthlong" id="ctl_imagecode"></textarea>
   </div>
   <div id="div_imagepreview"></div>
 
