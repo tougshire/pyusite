@@ -145,18 +145,18 @@ iframe {
     width:90%;
 }
 
-img {
+.article img {
     display:block;
     max-width:90%;
     margin:0 auto;
 }
 
-img.left {
+.article img.left {
     float:left;
     margin-left:10%;
 }
 
-img.right {
+.article img.right {
     float:right;
     margin-right:10%;
 }
