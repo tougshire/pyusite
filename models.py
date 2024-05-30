@@ -120,7 +120,7 @@ class Rack(models.Model):
     )
     show_title = models.BooleanField(
         "show title",
-        default=True,
+        default=False,
         help_text="If the title should be shown (if not blank)",
     )
     slug = models.SlugField(
