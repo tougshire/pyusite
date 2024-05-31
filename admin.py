@@ -85,6 +85,8 @@ class ArticleAdmin(admin.ModelAdmin):
         "author",
         "display",
         "content",
+        "summary",
+        "if_summary_blank",
         ("iframe_document", "iframe_src", "iframe_height"),
         "publish_date",
         "create_rack_to_section",
