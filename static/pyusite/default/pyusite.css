@@ -15,6 +15,7 @@ image {
     border-top:3px solid;
 
 }
+
 .head {
     width:80%;
     margin: 0 auto;
@@ -27,6 +28,11 @@ image {
 }
 #footer {
     text-align:center;
+}
+
+#mainstage {
+    width:80%;
+    margin: auto;
 }
 
 #sitemenu a {
