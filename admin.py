@@ -146,13 +146,15 @@ class MenuitemAdmin(admin.ModelAdmin):
         if form.cleaned_data["rack"]:
             rack = Page.objects.get(pk=form.cleaned_data["rack"].pk)
             obj.href = reverse("rack" + rack.slug)
+            obj.href = reverse("pyusite:rack", kwargs={'slug':rack.slug})
+
             if not form.cleaned_data["label"]:
                 obj.label = rack.title
             obj.save()
 
         if form.cleaned_data["page"]:
             page = Page.objects.get(pk=form.cleaned_data["page"].pk)
-            obj.href = reverse("page" + page.slug)
+            obj.href = reverse("pyusite:page", kwargs={'slug':page.slug})
             if not form.cleaned_data["label"]:
                 obj.label = page.title
             obj.save()
