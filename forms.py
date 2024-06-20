@@ -112,6 +112,9 @@ class SectionForm(ModelForm):
             "content_before_racks",
             "content_after_racks",
             "display",
+            "collapse",
+            "is_special",
+
         ]
         widgets = {
             "title": forms.TextInput(attrs={"class": "widthlong"}),

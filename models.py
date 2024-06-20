@@ -3,7 +3,6 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 
-
 class Page(models.Model):
     title = models.CharField(
         "title",
@@ -94,7 +93,10 @@ class Section(models.Model):
     collapse = models.BooleanField(
         "collapse", default=True, help_text="Collapse if there are no racks"
     )
-
+    is_special = models.BooleanField(
+        default=False,
+        help_text="If the section is special and thus won't be included in the regular loop"
+    )
     def __str__(self):
         return '"{}" on page "{}"'.format(
             self.title if self.title > "" else self.slug, self.page

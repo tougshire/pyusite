@@ -16,6 +16,11 @@ image {
 
 }
 
+#mainstage {
+    display:flex;
+
+}
+
 .head {
     width:80%;
     margin: 0 auto;

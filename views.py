@@ -239,6 +239,8 @@ class PageView(DetailView):
         context_data = super().get_context_data(**kwargs)
 
         sections = []
+        special_sections = []
+
         for object_section in context_data["object"].section_set.all():
 
             racks = []
@@ -292,18 +294,27 @@ class PageView(DetailView):
                             "hangers": hangers,
                         }
                     )
-            if racks:
-                sections.append(
-                    {
+            if racks or object_section.collapse==False:
+                new_section = {
                         "pk": object_section.pk,
                         "title": object_section.title,
                         "show_title": object_section.show_title,
                         "content_before_racks": object_section.content_before_racks,
                         "content_after_racks": object_section.content_after_racks,
+                        "collapse": object_section.collapse,
+                        "is_special": object_section.is_special,
+                        "slug": object_section.slug,
                         "racks": racks,
                     }
-                )
+
+                if object_section.is_special:
+                    special_sections.append(new_section)
+                else:
+                    sections.append(new_section)
+
+
         context_data["sections"] = sections
+        context_data["special_sections"] = special_sections
 
         context_data["page_menus"] = Menu.objects.filter(
             menupage__page=self.get_object()
