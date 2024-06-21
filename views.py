@@ -1,10 +1,10 @@
 from datetime import date, datetime
+import re
 from django.db.models.query import QuerySet
 from django_filters_stoex.views import FilterView
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
 import logging
-
+import urllib
 import markdown
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, response
@@ -888,6 +888,7 @@ class ImijCreate(CreateView):
                     "pk": self.object.pk,
                     "app_name": "pyusite",
                     "model_name": "Imij",
+                    "to_field_value": urllib.parse.quote_plus(self.object.markdown_code)
                 },
             )
 

@@ -6,14 +6,11 @@ from .models import Article, Articlecomment, Imij, Page, Rack, Hanger, Section
 from django import forms
 from touglates.widgets import TouglatesRelatedSelect, SlugInput
 
-# from django_c_keditor_5.widgets import C_KEditor5Widget
-
 
 class ArticleForm(ModelForm):
     image_select = forms.ModelChoiceField(
         required=False,
         queryset=Imij.objects.all(),
-        to_field_name="markdown_code",
         widget=TouglatesRelatedSelect(
             related_data={
                 "model_name": "Imij",
