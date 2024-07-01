@@ -359,6 +359,13 @@ class ArticleCreate(CreateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
+        context_data["images"] = Imij.objects.all()
+
+        context_data['pages'] = Page.objects.all()
+        context_data['sections'] = Section.objects.all()
+        context_data['racks'] = Rack.objects.all()
+
+
         formsetclasses = {
             "hangers": ArticleHangerFormset,
         }
@@ -423,6 +430,11 @@ class ArticleUpdate(UpdateView):
         context_data = super().get_context_data(**kwargs)
 
         context_data["images"] = Imij.objects.all()
+        context_data['pages'] = Page.objects.all()
+        context_data['sections'] = Section.objects.all()
+        context_data['racks'] = Rack.objects.all()
+
+
 
         formsetclasses = {
             "hangers": ArticleHangerFormset,

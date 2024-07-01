@@ -54,6 +54,19 @@ class ArticleForm(ModelForm):
             # ),
         }
 
+class RackSelect(TouglatesRelatedSelect):
+    def create_option(
+        self, name, value, label, selected, index, subindex=None, attrs=None
+    ):
+        option = super().create_option(
+            name, value, label, selected, index, subindex, attrs
+        )
+        if value:
+            option["attrs"]["data-section"] = value.instance.section.id
+            option["attrs"]["data-page"] = value.instance.section.page.id
+
+        return option
+
 
 class HangerForm(ModelForm):
     class Meta:
@@ -64,7 +77,7 @@ class HangerForm(ModelForm):
             "expiration_date",
         ]
         widgets = {
-            "rack": TouglatesRelatedSelect(
+            "rack": RackSelect(
                 related_data={
                     "model_name": "Rack",
                     "app_name": "pyusite",
