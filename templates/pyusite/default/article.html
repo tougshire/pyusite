@@ -14,9 +14,9 @@
         {{ object.content }}
       {% endif %}
       {% if object.iframe_document %}
-        <iframe src="{{ object.iframe_document.doc_file.url }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %}>"Loading.."</iframe>
+        <iframe src="{{ object.iframe_document.doc_file.url }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %} style="width:90%">"Loading.."</iframe>
       {% elif object.iframe_src %}
-        <iframe src="{{ object.iframe_src }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %}>"Loading.."</iframe>
+        <iframe src="{{ object.iframe_src }}"{% if object.iframe_height %} height="{{ object.iframe_height }}"{% endif %} style="width:90%">"Loading.."</iframe>
       {% endif %}
     </div>
   </div>
