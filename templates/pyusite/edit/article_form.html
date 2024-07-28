@@ -15,189 +15,173 @@
       {% include 'touglates/form_field.html' with field=form.iframe_height %}
       {% include 'touglates/form_field.html' with field=form.content %}
       {% include 'touglates/form_field.html' with field=form.summary %}
+
+      {% include 'touglates/form_field.html' with label_tag="<h3>Select Image</h3>" field_1=form.image_select field_2=form.image_width field_3=form.image_float %}
+      {% include 'touglates/form_field.html' with field=form.image_code  %}
+
+
       {% include 'touglates/form_field.html' with field=form.if_summary_blank %}
       {% include 'touglates/form_field.html' with field=form.featured_image %}
       {% include 'touglates/form_field.html' with field=form.publish_date %}
       {% include 'touglates/form_field.html' with field=form.display %}
 
-    <h3>Hangers</h3><p>(For your article to be visible on a page, you must "hang" your article with a hanger, on a rack, in a section of the page )<p>
+      <div class="formsetaccessory formsetaccessory--titlediv">
+        <div><h3 id="h3_hangers" class="formsetaccessory__titleel">Article Hangers</h3></div>
+      </div>
+      {% include 'touglates/form_button.html' with label="add hanger" button='<button type="button" id="button_addhanger" data-newform="hangernewform">Add a Hanger</button>' help_text="Hangers are used to 'hang' your article on a rack.  Pages have sections, sections have racks, and racks have articles attached with hangers" %}
 
-    {{ hangers.management_form }}
-    {% if hangers.errors %}{{ hangers.errors }}{% endif %}
-    {% for hangerform in hangers.forms %}
-      {% if hangerform.errors %}{{ hangerform.errors }}{% endif %}
-      {% if hangerform.id.value  %}
-        <div id="div_hangerform_{{ hangerform.id.value }}" class="hangerformsetform formsetform"  >
-          {% for hiddenfield in hangerform.hidden_fields %}
-            {{ hiddenfield }}
-          {% endfor %}
+      {{ hangers.management_form }}
+      {% if hangers.errors %}{{ hangers.errors }}{% endif %}
+      {% for hangerform in hangers.forms %}
+        {% if hangerform.errors %}{{ hangerform.errors }}{% endif %}
+        {% if hangerform.id.value  %}
+          <div id="div_hangerform_{{ hangerform.id.value }}" class="hangerformsetform formsetform"  >
+            {% for hiddenfield in hangerform.hidden_fields %}
+              {{ hiddenfield }}
+            {% endfor %}
 
-          <div class="form-field-outer-wrapper">
-            <div class="form-field-inner-wrapper">
-              <div class="form-field-label">
+            <div class="form-field-outer-wrapper">
+              <div class="form-field-inner-wrapper">
+                <div class="form-field-label">
                   Page:
-              </div>
-              <div class="form-field-control">
-                <select id="page_{{ hangerform.rack.id_for_label }}">
-                  <option value=""></option>
-                  {% for page in pages %}
-                    <option value="{{ page.pk }}">{{ page }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-field-help-text">
-                The page on which the rack should be placed
+                </div>
+                <div class="form-field-control">
+                  <select id="page_{{ hangerform.rack.id_for_label }}">
+                    <option value=""></option>
+                    {% for page in pages %}
+                      <option value="{{ page.pk }}">{{ page }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-field-help-text">
+                  The page on which the rack should be placed
+                </div>
               </div>
             </div>
-          </div>
-          <div class="form-field-outer-wrapper">
-            <div class="form-field-inner-wrapper">
-              <div class="form-field-label">
+            <div class="form-field-outer-wrapper">
+              <div class="form-field-inner-wrapper">
+                <div class="form-field-label">
                   Section:
-              </div>
-              <div class="form-field-control">
-                <select id="section_{{ hangerform.rack.id_for_label }}">
-                  <option value=""></option>
-                  {% for section in sections %}
-                    <option data-page="{{ section.page.pk }}" value="{{ section.pk }}">{{ section }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-field-help-text">
-                The section in which the rack should be placed
+                </div>
+                <div class="form-field-control">
+                  <select id="section_{{ hangerform.rack.id_for_label }}">
+                    <option value=""></option>
+                    {% for section in sections %}
+                      <option data-page="{{ section.page.pk }}" value="{{ section.pk }}">{{ section }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-field-help-text">
+                  The section in which the rack should be placed
+                </div>
               </div>
             </div>
+
+
+            {% include 'touglates/form_field.html' with field=hangerform.rack %}
+            {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
+            {% include 'touglates/form_field.html' with field=hangerform.order %}
+            {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
+
+            <script>
+              document.getElementById("page_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
+                let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
+                let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
+                let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
+
+                filterRackChoices(pageselect, sectionselect, rackselect)
+              })
+              document.getElementById("section_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
+                let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
+                let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
+                let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
+
+                filterRackChoices(pageselect, sectionselect, rackselect)
+              })
+            </script>
+
           </div>
+        {% else %}
+          <div class="hangerformsetform hangernewform formsetform formsetnewform" >
+            {% for hiddenfield in hangerform.hidden_fields %}
+              {{ hiddenfield }}
+            {% endfor %}
 
-
-          {% include 'touglates/form_field.html' with field=hangerform.rack %}
-          {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
-          {% include 'touglates/form_field.html' with field=hangerform.order %}
-          {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
-
-          <script>
-          document.getElementById("page_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
-            let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
-            let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
-            let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
-
-            filterRackChoices(pageselect, sectionselect, rackselect)
-          })
-          document.getElementById("section_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
-            let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
-            let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
-            let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
-
-            filterRackChoices(pageselect, sectionselect, rackselect)
-          })
-          </script>
-
-        </div>
-      {% else %}
-        <div class="hangerformsetform hangernewform formsetform formsetnewform" >
-          {% for hiddenfield in hangerform.hidden_fields %}
-            {{ hiddenfield }}
-          {% endfor %}
-
-          <div class="form-field-outer-wrapper">
-            <div class="form-field-inner-wrapper">
-              <div class="form-field-label">
+            <div class="form-field-outer-wrapper">
+              <div class="form-field-inner-wrapper">
+                <div class="form-field-label">
                   Page:
-              </div>
-              <div class="form-field-control">
-                <select id="page_{{ hangerform.rack.id_for_label }}">
-                  <option value=""></option>
-                  {% for page in pages %}
-                    <option value="{{ page.pk }}">{{ page }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-field-help-text">
-                The page on which the rack should be placed
+                </div>
+                <div class="form-field-control">
+                  <select id="page_{{ hangerform.rack.id_for_label }}">
+                    <option value=""></option>
+                    {% for page in pages %}
+                      <option value="{{ page.pk }}">{{ page }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-field-help-text">
+                  The page on which the rack should be placed
+                </div>
               </div>
             </div>
-          </div>
-          <div class="form-field-outer-wrapper">
-            <div class="form-field-inner-wrapper">
-              <div class="form-field-label">
+            <div class="form-field-outer-wrapper">
+              <div class="form-field-inner-wrapper">
+                <div class="form-field-label">
                   Section:
-              </div>
-              <div class="form-field-control">
-                <select id="section_{{ hangerform.rack.id_for_label }}">
-                  <option value=""></option>
-                  {% for section in sections %}
-                    <option data-page="{{ section.page.pk }}" value="{{ section.pk }}">{{ section }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-field-help-text">
-                The section in which the rack should be placed
+                </div>
+                <div class="form-field-control">
+                  <select id="section_{{ hangerform.rack.id_for_label }}">
+                    <option value=""></option>
+                    {% for section in sections %}
+                      <option data-page="{{ section.page.pk }}" value="{{ section.pk }}">{{ section }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-field-help-text">
+                  The section in which the rack should be placed
+                </div>
               </div>
             </div>
+
+            <script>
+
+              document.getElementById("page_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
+                let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
+                let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
+                let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
+
+                filterRackChoices(pageselect, sectionselect, rackselect)
+              })
+              document.getElementById("section_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
+                let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
+                let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
+                let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
+
+                filterRackChoices(pageselect, sectionselect, rackselect)
+              })
+
+            </script>
+            {% include 'touglates/form_field.html' with field=hangerform.rack %}
+            {% include 'touglates/form_field.html' with field=hangerform.order %}
+            {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
+            {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
           </div>
-
-          <script>
-
-            document.getElementById("page_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
-              let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
-              let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
-              let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
-
-              filterRackChoices(pageselect, sectionselect, rackselect)
-            })
-            document.getElementById("section_{{ hangerform.rack.id_for_label }}").addEventListener('change', function(e) {
-              let pageselect=document.getElementById("page_{{ hangerform.rack.id_for_label }}")
-              let sectionselect=document.getElementById("section_{{ hangerform.rack.id_for_label }}")
-              let rackselect=document.getElementById("{{ hangerform.rack.id_for_label }}")
-
-              filterRackChoices(pageselect, sectionselect, rackselect)
-            })
-
-          </script>
-          {% include 'touglates/form_field.html' with field=hangerform.rack %}
-          {% include 'touglates/form_field.html' with field=hangerform.order %}
-          {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
-          {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
-        </div>
-      {% endif %}
-    {% endfor %}
-    <table>
-      <tr>
-        <td><button type="button" id="button_addhanger" data-newform="hangernewform">Add a Hanger</button></td><td span="*"></td>
-      </tr>
-      {% for hanger in object.hanger_set.all %}
-        <tr id="tr_hanger_{{ hanger.id }}">
-          <td><button type="button" id="button_edithanger_{{ hanger.id }}" data-formid="div_hangerform_{{ hanger.id }}" data-displayid="tr_hanger_{{ hanger.id }}" class="hanger_edit_button">edit</button></td><td>{{ hanger.rack }}</td>
-        </tr>
+        {% endif %}
       {% endfor %}
-    </table>
+      <table>
+        {% for hanger in object.hanger_set.all %}
+          <tr id="tr_hanger_{{ hanger.id }}">
+            <td><button type="button" id="button_edithanger_{{ hanger.id }}" data-formid="div_hangerform_{{ hanger.id }}" data-displayid="tr_hanger_{{ hanger.id }}" class="hanger_edit_button">edit</button></td><td>{{ hanger.rack }}</td>
+          </tr>
+        {% endfor %}
+      </table>
 
-    {% include 'touglates/form_field.html' with field='<button type="Submit">Submit Article</button>' %}
+
+
+      {% include 'touglates/form_field.html' with field='<button type="Submit">Submit Article</button>' %}
 
     </form>
-
-    <h2>Generate an Image Link</h2><p>Copy the generated link into the content or summary of the article</p>
-    For this image:<br/> {{ form.image_select }}<br/>
-    optionally with these classes:<br/>
-    <select id="ctl_imagewidth"><option value="">---</option>
-      <option value=".width10">width: 10%</option>
-      <option value=".width20">width: 20%</option>
-      <option value=".width30">width: 30%</option>
-      <option value=".width40">width: 40%</option>
-      <option value=".width50">width: 50%</option>
-      <option value=".width60">width: 60%</option>
-      <option value=".width70">width: 70%</option>
-      <option value=".width80">width: 80%</option>
-      <option value=".width90">width: 90%</option>
-    </select>
-    <select id="ctl_imagefloat"><option value="">---</option>
-      <option value=".left">left</option>
-      <option value=".right">right</option>
-    </select>
-    <br/>
-    use this code:<br/><textarea class="widthlong" id="ctl_imagecode"></textarea>
-  </div>
-  <div id="div_imagepreview"></div>
 
   <script>
     activateFormsetButtons(["hanger",])
@@ -206,63 +190,49 @@
     function generateImageCode(){
       fullCode=""
       imageClasses=""
-      imageCode=document.getElementById("id_image_select").value
+      imageCode=document.getElementById("{{ form.image_select.id_for_label }}").value
       if(imageCode) {
-        imageClasses = (document.getElementById("ctl_imagewidth").value + " " + document.getElementById("ctl_imagefloat").value).trim()
+        imageClasses = (document.getElementById("{{ form.image_width.id_for_label }}").value + " " + document.getElementById("{{ form.image_float.id_for_label }}").value).trim()
         if (imageClasses) {
           imageClasses="{" + imageClasses + "}"
         }
         fullCode = imageCode + imageClasses
       }
-      document.getElementById("ctl_imagecode").value=fullCode
-    }
-    function generateImagePreview(){
-      fullCode=""
-      imageClasses=""
-      imageCode=document.getElementById("id_image_select").value
-      if(imageCode) {
-        imageClasses = (document.getElementById("ctl_imagewidth").value + " " + document.getElementById("ctl_imagefloat").value).trim()
-        if (imageClasses) {
-          imageClasses="{" + imageClasses + "}"
-        }
-        fullCode = imageCode + imageClasses
-      }
-      document.getElementById("div_imagepreview").innerHTML="<img src='" + im
+      document.getElementById("{{ form.image_code.id_for_label }}").value=fullCode
     }
 
-    document.getElementById("id_image_select").addEventListener("change", generateImageCode)
-    document.getElementById("ctl_imagewidth").addEventListener("change", generateImageCode)
-    document.getElementById("ctl_imagefloat").addEventListener("change", generateImageCode)
+    document.getElementById("{{ form.image_select.id_for_label }}").addEventListener("change", generateImageCode)
+    document.getElementById("{{ form.image_width.id_for_label }}").addEventListener("change", generateImageCode)
+    document.getElementById("{{ form.image_float.id_for_label }}").addEventListener("change", generateImageCode)
 
   </script>
-    <script>
-          function filterRackChoices(pageselect,sectionselect,rackselect) {
-            console.log(pageselect)
-            let pageoptions = pageselect.options
-            let sectionoptions = sectionselect.options
-            let rackoptions = rackselect.options
+  <script>
+    function filterRackChoices(pageselect,sectionselect,rackselect) {
+      console.log(pageselect)
+      let pageoptions = pageselect.options
+      let sectionoptions = sectionselect.options
+      let rackoptions = rackselect.options
 
-            for(option of sectionoptions) {
-              if (option.dataset["page"]==pageselect.value || pageselect.value=="" ) {
-                option.style.display="block"
-              } else {
-                option.style.display="none"
-                if(option.value == sectionselect.value) {
-                  sectionselect.value = ""
-                }
-              }
-            }
-
-            for(option of rackoptions) {
-              if ( (option.dataset["section"]==sectionselect.value || sectionselect.value=="" ) && (option.dataset["page"]==pageselect.value || pageselect.value=="" ) ) {
-                option.style.display="block"
-              } else {
-                option.style.display="none"
-                if(option.value == rackselect.value) {
-                  rackselect.value = ""
-                }
-
-              }
-            }
+      for(option of sectionoptions) {
+        if (option.dataset["page"]==pageselect.value || pageselect.value=="" ) {
+          option.style.display="block"
+        } else {
+          option.style.display="none"
+          if(option.value == sectionselect.value) {
+            sectionselect.value = ""
           }
-</script>
+        }
+      }
+
+      for(option of rackoptions) {
+        if ( (option.dataset["section"]==sectionselect.value || sectionselect.value=="" ) && (option.dataset["page"]==pageselect.value || pageselect.value=="" ) ) {
+          option.style.display="block"
+        } else {
+          option.style.display="none"
+          if(option.value == rackselect.value) {
+            rackselect.value = ""
+          }
+        }
+      }
+    }
+  </script>

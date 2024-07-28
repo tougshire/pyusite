@@ -11,6 +11,7 @@ class ArticleForm(ModelForm):
     image_select = forms.ModelChoiceField(
         required=False,
         queryset=Imij.objects.all(),
+        to_field_name="markdown_code",
         widget=TouglatesRelatedSelect(
             related_data={
                 "model_name": "Imij",
@@ -18,6 +19,37 @@ class ArticleForm(ModelForm):
                 "add_url": reverse_lazy("pyusite:imij-popup"),
             },
         ),
+        help_text="Select or add an image then copy the resulting code",
+        label="select image"
+    )
+    image_width = forms.ChoiceField(
+        choices=(
+            (".width10", "width: 10%"),
+            (".width20", "width: 20%"),
+            (".width30", "width: 30%"),
+            (".width40", "width: 40%"),
+            (".width50", "width: 50%"),
+            (".width60", "width: 60%"),
+            (".width70", "width: 70%"),
+            (".width80", "width: 80%"),
+            (".width90", "width: 90%"),
+        ),
+        initial=".width80"
+    )
+    image_float = forms.ChoiceField(
+        choices=(
+            ("", "center"),
+            (".left", "left"),
+            (".righht", "right"),
+        ),
+        initial=""
+    )
+
+    image_code = forms.CharField(
+        required=False,
+        label="Code",
+        widget=forms.TextInput(attrs={"class":"widthlong"}),
+        help_text="Select an image above, select appropriate parameters, then copy the resulting code into the content or summary"
     )
 
     class Meta:

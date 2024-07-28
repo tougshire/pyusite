@@ -53,6 +53,7 @@ h1 a, h2 a, h3 a, h3 a, h5 a, h6 a{
 .article_content {
     overflow:auto;
     margin:auto 10% auto 10%;
+    width:100%;
 }
 
 .article_content p {
