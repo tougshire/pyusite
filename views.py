@@ -900,7 +900,9 @@ class ImijCreate(CreateView):
                     "pk": self.object.pk,
                     "app_name": "pyusite",
                     "model_name": "Imij",
-                    "to_field_value": urllib.parse.quote_plus(self.object.markdown_code)
+                    "to_field_value": urllib.parse.quote_plus(self.object.markdown_code),
+                    "attrs": "-",
+                    "callback": "-",
                 },
             )
 
