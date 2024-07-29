@@ -23,6 +23,7 @@ class ArticleForm(ModelForm):
         label="select image"
     )
     image_width = forms.ChoiceField(
+        required=False,
         choices=(
             (".width10", "width: 10%"),
             (".width20", "width: 20%"),
@@ -37,6 +38,7 @@ class ArticleForm(ModelForm):
         initial=".width80"
     )
     image_float = forms.ChoiceField(
+        required=False,
         choices=(
             ("", "center"),
             (".left", "left"),
