@@ -2,7 +2,7 @@
 {% load touglates_tags %}
 {% load pyusite_extras %}
 {% block content %}
-
+<div id="mainsection">
   <div class="article" id="object_{{ object.pk }}">
     {% if article.title and article.show_title %}
       <h2>{{ object.title }}</h2>
@@ -20,7 +20,7 @@
       {% endif %}
     </div>
   </div>
-
+</div>
 
 
 {% endblock %}

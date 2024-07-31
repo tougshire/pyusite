@@ -40,6 +40,9 @@ image {
     margin: auto;
 }
 
+#mainsection {
+    width:90%;
+}
 #sitemenu a {
     display:block;
     text-decoration: none;
