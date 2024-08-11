@@ -456,6 +456,9 @@ class Menuitem(models.Model):
     def __str__(self):
         return self.label
 
+    class Meta:
+        ordering=("menu", "order")
+
 
 class MenuPage(models.Model):
     menu = models.ForeignKey(

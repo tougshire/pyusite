@@ -26,10 +26,6 @@ class ArticleModelForm(forms.ModelForm):
         required=False,
         help_text="If selected, create a new rack for this article in the selected section",
     )
-    # content = forms.CharField(
-    #     required=False
-    #     # required=False, widget=C_KEditor5Widget(config_name="extends")
-    # )
 
 
 class MenuitemModelForm(forms.ModelForm):
@@ -77,7 +73,7 @@ class SectionInline(admin.TabularInline):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["pk", "title", "slug", "updated_datetime"]
+    list_display = ["display_title", "slug", "updated_datetime"]
     fields = [
         "title",
         "show_title",
@@ -114,6 +110,9 @@ class ArticleAdmin(admin.ModelAdmin):
 
         return saved
 
+    @admin.display(empty_value="-")
+    def display_title(self, obj):
+        return obj.title
 
 @admin.register(Articlecomment)
 class ArticlecommentAdmin(admin.ModelAdmin):
@@ -129,6 +128,10 @@ class ArticlecommentAdmin(admin.ModelAdmin):
 class DocumentAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
+@admin.register(Hanger)
+class HangerAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "order")
+
 
 class MenuAdmin(admin.ModelAdmin):
     inlines = [
@@ -137,6 +140,8 @@ class MenuAdmin(admin.ModelAdmin):
 
 
 class MenuitemAdmin(admin.ModelAdmin):
+
+    list_display=["menu", "label", "order"]
     form = MenuitemModelForm
 
     def save_model(self, request, obj, form, change):
@@ -180,6 +185,7 @@ class PageAdmin(admin.ModelAdmin):
 
 class SectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+    list_display=["page", "title", "order"]
     inlines = [
         RackInline,
     ]
@@ -204,8 +210,6 @@ admin.site.register(Page, PageAdmin)
 # admin.site.register(Rack, RackAdmin)
 
 admin.site.register(Rack)
-
-admin.site.register(Hanger)
 
 admin.site.register(Imij, ImijAdmin)
 
