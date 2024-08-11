@@ -141,7 +141,7 @@ class MenuAdmin(admin.ModelAdmin):
 
 class MenuitemAdmin(admin.ModelAdmin):
 
-    list_display=["menu", "label", "order"]
+    list_display=["label", "menu", "order"]
     form = MenuitemModelForm
 
     def save_model(self, request, obj, form, change):
@@ -185,7 +185,7 @@ class PageAdmin(admin.ModelAdmin):
 
 class SectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    list_display=["page", "title", "order"]
+    list_display=["title", "page", "order"]
     inlines = [
         RackInline,
     ]
