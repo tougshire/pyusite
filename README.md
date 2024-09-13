@@ -1,5 +1,7 @@
 # Pyusite
 
+## #To be discontinued in favor of wibekwa# ##
+
 A Django app CMS.  As of 2024, this is a limited and clunky CMS which might be useful as a starting point or an example for someone who wants to build their own.  On the other hand, it might fit your needs as is.
 
 Pyusite (which I pronounce like "Pius Site") is named from a mashup of "Python User's Site"  The previous name was "sdc_site", from the initials of a customer I was working for when I started on this project
